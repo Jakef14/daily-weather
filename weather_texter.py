@@ -13,12 +13,11 @@ from twilio.rest import Client
 # ============= CONFIGURATION =============
 # Twilio credentials (get from https://www.twilio.com/console)
 
-TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID', 'your_account_sid_here')
-TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN', 'your_auth_token_here')
-TWILIO_PHONE_NUMBER = os.environ.get('TWILIO_PHONE_NUMBER', '+1234567890')
-FRIEND_PHONE_NUMBER = os.environ.get('FRIEND_PHONE_NUMBER', '+1234567890')
+TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID', '')
+TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN', '')
+TWILIO_PHONE_NUMBER = os.environ.get('TWILIO_PHONE_NUMBER', '')
+FRIEND_PHONE_NUMBER = os.environ.get('FRIEND_PHONE_NUMBER', '')
 
-# Weather API endpoint (using wttr.in - free, no API key needed)
 # Alternative: Use OpenWeatherMap, WeatherAPI.com, or similar
 DEL_MAR_LAT = 32.9595
 DEL_MAR_LON = -117.2653
