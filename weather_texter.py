@@ -25,23 +25,55 @@ BOSTON_LON = -71.0589
 
 
 # ============= WEATHER FETCHING =============
+def weather_code_to_text(code):
+    mapping = {
+        0: "Clear",
+        1: "Mostly Clear",
+        2: "Partly Cloudy",
+        3: "Overcast",
+        45: "Fog",
+        48: "Fog",
+        51: "Light Drizzle",
+        53: "Drizzle",
+        55: "Heavy Drizzle",
+        61: "Light Rain",
+        63: "Rain",
+        65: "Heavy Rain",
+        71: "Light Snow",
+        73: "Snow",
+        75: "Heavy Snow",
+        95: "Thunderstorm",
+    }
+    return mapping.get(code, "Unknown")
+
 def get_weather(lat, lon, location_name):
-    """Fetch weather using wttr.in service (free, no API key)"""
+    """Fetch weather using Open-Meteo (free, no API key, reliable)"""
     try:
-        url = f"https://wttr.in/{lat},{lon}?format=j1"
+        url = (
+            "https://api.open-meteo.com/v1/forecast"
+            f"?latitude={lat}"
+            f"&longitude={lon}"
+            "&current_weather=true"
+            "&daily=temperature_2m_max,temperature_2m_min"
+            "&temperature_unit=fahrenheit"
+            "&timezone=auto"
+        )
+
         response = requests.get(url, timeout=10)
+        response.raise_for_status()
         data = response.json()
-        
-        current = data['current_condition'][0]
-        today = data['weather'][0]
-        
+
+        current = data["current_weather"]
+        daily = data["daily"]
+
         return {
-            'location': location_name,
-            'temp': int(current['temp_F']),
-            'condition': current['weatherDesc'][0]['value'],
-            'high': int(today['maxtempF']),
-            'low': int(today['mintempF'])
+            "location": location_name,
+            "temp": int(round(current["temperature"])),
+            "condition": weather_code_to_text(current["weathercode"]),
+            "high": int(round(daily["temperature_2m_max"][0])),
+            "low": int(round(daily["temperature_2m_min"][0])),
         }
+
     except Exception as e:
         print(f"Error fetching weather for {location_name}: {e}")
         return None
