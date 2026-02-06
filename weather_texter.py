@@ -5,6 +5,7 @@ Sends playful weather updates comparing Del Mar, CA to Boston, MA
 """
 
 import os
+import sys
 import requests
 import random
 from datetime import datetime
@@ -12,6 +13,34 @@ from twilio.rest import Client
 
 # ============= CONFIGURATION =============
 # Twilio credentials (get from https://www.twilio.com/console)
+
+def debug_env():
+    print("🔐 Environment variable check:")
+    for key in [
+        "TWILIO_ACCOUNT_SID",
+        "TWILIO_AUTH_TOKEN",
+        "TWILIO_PHONE_NUMBER",
+        "FRIEND_PHONE_NUMBER",
+    ]:
+        val = os.environ.get(key)
+        if val:
+            print(f"  ✅ {key} is set (length={len(val)})")
+        else:
+            print(f"  ❌ {key} is MISSING")
+
+def enforce_env():
+    missing = [
+        k for k in [
+            "TWILIO_ACCOUNT_SID",
+            "TWILIO_AUTH_TOKEN",
+            "TWILIO_PHONE_NUMBER",
+            "FRIEND_PHONE_NUMBER",
+        ]
+        if not os.environ.get(k)
+    ]
+    if missing:
+        print(f"🚨 Missing secrets: {missing}")
+        sys.exit(1)
 
 TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID', '')
 TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN', '')
@@ -178,6 +207,8 @@ def send_sms(message):
 # ============= MAIN EXECUTION =============
 def main():
     print(f"🤖 Weather Comparison Bot Starting - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    debug_env()
+    enforce_env()
     
     # Fetch weather data
     print("📡 Fetching Del Mar weather...")
