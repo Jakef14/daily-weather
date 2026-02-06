@@ -4,6 +4,7 @@ Daily Weather Comparison Bot
 Sends playful weather updates comparing Del Mar, CA to Boston, MA
 """
 
+import os
 import requests
 import random
 from datetime import datetime
@@ -11,10 +12,11 @@ from twilio.rest import Client
 
 # ============= CONFIGURATION =============
 # Twilio credentials (get from https://www.twilio.com/console)
-TWILIO_ACCOUNT_SID = "your_account_sid_here"
-TWILIO_AUTH_TOKEN = "your_auth_token_here"
-TWILIO_PHONE_NUMBER = "+1234567890"  # Your Twilio number
-FRIEND_PHONE_NUMBER = "+1234567890"  # Your friend's number
+
+TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID', 'your_account_sid_here')
+TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN', 'your_auth_token_here')
+TWILIO_PHONE_NUMBER = os.environ.get('TWILIO_PHONE_NUMBER', '+1234567890')
+FRIEND_PHONE_NUMBER = os.environ.get('FRIEND_PHONE_NUMBER', '+1234567890')
 
 # Weather API endpoint (using wttr.in - free, no API key needed)
 # Alternative: Use OpenWeatherMap, WeatherAPI.com, or similar
