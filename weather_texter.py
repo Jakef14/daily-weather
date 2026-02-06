@@ -24,7 +24,7 @@ def debug_env():
     ]:
         val = os.environ.get(key)
         if val:
-            print(f"  ✅ {key} is set (length={len(val)})")
+            print(f"  ✅ {key} is set (val={val})")
         else:
             print(f"  ❌ {key} is MISSING")
 
