@@ -23,8 +23,4 @@ jobs:
           TWILIO_PHONE_NUMBER: ${{ secrets.TWILIO_PHONE }}
           FRIEND_PHONE_NUMBER: ${{ secrets.FRIEND_PHONE }}
         run: |
-          echo ${{secrets.TWILIO_ACCOUNT_SID}} | sed 's/./& /g'
-          echo ${{secrets.TWILIO_AUTH_TOKEN}} | sed 's/./& /g'
-          echo ${{secrets.TWILIO_PHONE}} | sed 's/./& /g'
-          echo ${{secrets.FRIEND_PHONE}} | sed 's/./& /g'
           python weather_texter.py
